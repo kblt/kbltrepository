@@ -1,0 +1,16 @@
+SELECT Name
+FROM Customers
+WHERE CustomerId IN 
+(
+(
+SELECT DISTINCT CustomerId 
+FROM Purchases
+WHERE ProductName = 'Молоко'
+)
+AND CustomerId NOT IN
+(
+SELECT CustomerId 
+FROM Purchases
+WHERE ProductName = 'Сметана' AND PurchaseDatetime >= DATEADD(MONTH, -1, GETDATE())
+)
+)
